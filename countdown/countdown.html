@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        h1 {
+            margin-bottom: 20px;
+        }
+        
+        .input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .input-container input {
+            width: 70px;
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            background: #4caf50;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .btn:hover {
+            background: #45a049;
+        }
+        
+        .countdown {
+            display: none;
+            /* hidden initially */
+            gap: 20px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .time-box {
+            text-align: center;
+        }
+        
+        .time-box span {
+            display: block;
+            font-size: 14px;
+            font-weight: normal;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Countdown Timer</h1>
+
+    <div id="inputSection">
+        <div class="input-container">
+            <input type="number" id="days" placeholder="Days">
+            <input type="number" id="hours" placeholder="Hours">
+            <input type="number" id="minutes" placeholder="Minutes">
+            <input type="number" id="seconds" placeholder="Seconds">
+        </div>
+
+        <button class="btn" id="startBtn">Start Countdown</button>
+    </div>
+
+    <div class="countdown" id="countdown">
+        <div class="time-box">
+            <div id="d">00</div><span>Days</span></div>
+        <div class="time-box">
+            <div id="h">00</div><span>Hours</span></div>
+        <div class="time-box">
+            <div id="m">00</div><span>Minutes</span></div>
+        <div class="time-box">
+            <div id="s">00</div><span>Seconds</span></div>
+    </div>
+
+    <script>
+        let countdownInterval;
+
+        document.getElementById("startBtn").addEventListener("click", () => {
+            clearInterval(countdownInterval);
+
+            let days = parseInt(document.getElementById("days").value) || 0;
+            let hours = parseInt(document.getElementById("hours").value) || 0;
+            let minutes = parseInt(document.getElementById("minutes").value) || 0;
+            let seconds = parseInt(document.getElementById("seconds").value) || 0;
+
+            let totalSeconds = (days * 24 * 60 * 60) +
+                (hours * 60 * 60) +
+                (minutes * 60) +
+                seconds;
+
+            if (totalSeconds <= 0) return;
+
+            // Hide input section & show countdown
+            document.getElementById("inputSection").style.display = "none";
+            document.getElementById("countdown").style.display = "flex";
+
+            countdownInterval = setInterval(() => {
+                if (totalSeconds <= 0) {
+                    clearInterval(countdownInterval);
+                    alert("⏰ Time's up!");
+                    return;
+                }
+
+                totalSeconds--;
+
+                let d = Math.floor(totalSeconds / (24 * 60 * 60));
+                let h = Math.floor((totalSeconds % (24 * 60 * 60)) / 3600);
+                let m = Math.floor((totalSeconds % 3600) / 60);
+                let s = totalSeconds % 60;
+
+                document.getElementById("d").textContent = String(d).padStart(2, "0");
+                document.getElementById("h").textContent = String(h).padStart(2, "0");
+                document.getElementById("m").textContent = String(m).padStart(2, "0");
+                document.getElementById("s").textContent = String(s).padStart(2, "0");
+            }, 1000);
+        });
+    </script>
+
+</body>
+
+</html>

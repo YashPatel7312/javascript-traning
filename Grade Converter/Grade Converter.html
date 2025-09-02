@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <h2>Grade Converter</h2>
+
+
+    <input type="number" id="grade" placeholder="Enter grade (0-100)">
+    <button onclick="convertGrade()">Check</button>
+
+    <p id="result"></p>
+
+    <script>
+        function convertGrade() {
+            let grade = document.getElementById("grade").value;
+
+            if (grade === "") {
+                document.getElementById("result").innerHTML = "Please enter a grade!";
+                return;
+            }
+
+            grade = Number(grade);
+
+            let letter = "";
+
+            if (grade >= 90) {
+                letter = "A";
+            } else if (grade >= 80) {
+                letter = "B";
+            } else if (grade >= 60) {
+                letter = "C";
+            } else if (grade >= 40) {
+                letter = "D";
+            } else {
+                letter = "F";
+            }
+
+            document.getElementById("result").innerHTML = "Letter Grade: " + letter;
+        }
+    </script>
+
+</body>
+
+</html>

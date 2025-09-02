@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Gold & Crypto Prices</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        
+        .section {
+            max-width: 500px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+        }
+        
+        h2 {
+            color: #444;
+        }
+        
+        .price {
+            font-size: 36px;
+            color: #27ae60;
+            margin-top: 15px;
+        }
+        
+        .currency {
+            font-size: 16px;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Live Prices</h1>
+
+    <div class="section" id="goldSection">
+        <h2>Gold Price</h2>
+        <div class="price" id="goldPrice">Loading...</div>
+        <div class="currency">USD / Ounce</div>
+    </div>
+
+    <div class="section" id="cryptoSection">
+        <h2>Bitcoin Price</h2>
+        <div class="price" id="cryptoPrice">Loading...</div>
+        <div class="currency">USD</div>
+    </div>
+
+    <script>
+        // Gold API call
+        async function fetchGoldPrice() {
+            try {
+                const response = await fetch('https://data-asg.goldprice.org/dbXRates/USD');
+                const data = await response.json();
+                const goldPrice = data.items[0].xauPrice; // Gold price in USD
+                document.getElementById('goldPrice').innerText = goldPrice.toFixed(2);
+            } catch (error) {
+                document.getElementById('goldPrice').innerText = 'Error';
+                console.error(error);
+            }
+        }
+
+        // Crypto API call
+        async function fetchCryptoPrice() {
+            const url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd';
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const cryptoPrice = data.bitcoin.usd;
+                document.getElementById('cryptoPrice').innerText = cryptoPrice.toLocaleString();
+            } catch (error) {
+                document.getElementById('cryptoPrice').innerText = 'Error';
+                console.error(error);
+            }
+        }
+
+        // Initial fetch and auto refresh
+        fetchGoldPrice();
+        fetchCryptoPrice();
+        setInterval(fetchGoldPrice, 10000);
+        setInterval(fetchCryptoPrice, 10000);
+    </script>
+
+</body>
+
+</html>

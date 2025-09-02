@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h2>Receiver Page</h2>
+  <p id="output"></p>
+
+  <script>
+    // URL to parameters read
+    const params = new URLSearchParams(window.location.search);
+
+    const name = params.get("name");
+    const age = params.get("age");
+
+    document.getElementById("output").innerText = `name: ${name}, age: ${age}`;
+  </script>
+</body>
+</html>
